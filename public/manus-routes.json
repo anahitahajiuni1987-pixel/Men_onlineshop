@@ -4,6 +4,7 @@
     {"path":"/products", "title":"محصولات | مارک"},
     {"path":"/cart", "title":"سبد خرید | مارک"},
     {"path":"/checkout", "title":"پرداخت امن | مارک"},
-    {"path":"/orders", "title":"سفارش‌های من | مارک"}
+    {"path":"/orders", "title":"سفارش‌های من | مارک"},
+    {"path":"/account", "title":"پنل مشتری | مارک"}
   ]
 }
