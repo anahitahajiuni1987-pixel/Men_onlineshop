@@ -32,7 +32,7 @@
 <body>
   <div class="room" aria-hidden="true"></div>
   <div class="ghost" aria-hidden="true"><span>F</span><span>I</span><span>T</span></div>
-  <div class="brand glass" aria-label="مارک"><span class="brand-mark"></span><span><span class="brand-name">مارک</span><span class="brand-sub">پوشاک مردانه</span></span></div>
+  <a class="brand glass" href="/products" aria-label="مشاهده محصولات مارک"><span class="brand-mark"></span><span><span class="brand-name">مارک</span><span class="brand-sub">پوشاک مردانه · محصولات</span></span></a>
   <nav class="tabs glass" aria-label="دسته‌بندی محصولات"><span class="pill"></span><button class="tab active" data-tab="tops">تاپ‌ها</button><button class="tab" data-tab="bottoms">شلوارها</button><button class="tab" data-tab="outer">لباس رویی</button><button class="tab" data-tab="shoes">کفش‌ها</button><button class="tab" data-tab="accessories">اکسسوری‌ها</button></nav>
   <aside class="rail glass" aria-label="ابزارها">
     <button class="active tee" aria-label="لباس‌ها"><svg viewBox="0 0 24 24"><path d="M8.2 4 4 6.5l-2 3.2 3.7 2.2 1.7-2.2V21h9.2V9.7l1.7 2.2 3.7-2.2-2-3.2L15.8 4c-.9 1.4-2.1 2.1-3.8 2.1S9.1 5.4 8.2 4Z"/></svg></button>
@@ -84,7 +84,7 @@
     const showToast=message=>{const toast=$('.toast');toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200)};$('.buy-cta').addEventListener('click',()=>showToast('محصول به سبد شما اضافه شد'));$('.buy-cta').addEventListener('mouseenter',()=>setCursor('btn'));$('.buy-cta').addEventListener('mouseleave',()=>setCursor('drag'));$$('.rail button').forEach((button,i)=>button.addEventListener('click',()=>{if(i===0){target=target;showToast('حالت پرو فعال است')}if(i===1)showToast('محصول فعال آماده‌ی خرید است');if(i===2)showToast('مجموعه‌ی جدید مارک به‌زودی');if(i===3)showToast('پروفایل مهمان')}));
     $$('.tab').forEach((tab,i)=>tab.addEventListener('click',()=>{$$('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');const pill=$('.tabs .pill');pill.style.width=tab.offsetWidth+'px';pill.style.transform=`translateX(${tab.offsetLeft-5}px)`;target+=5}));
     addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'}});addEventListener('resize',setCW);
-    setCW();makeCards();requestAnimationFrame(frame);requestAnimationFrame(()=>{const a=$('.tab.active');$('.tabs .pill').style.width=a.offsetWidth+'px';$('.tabs .pill').style.transform=`translateX(${a.offsetLeft-5}px)`});setTimeout(()=>tryOn(0),300);setTimeout(()=>$('.hint').style.opacity=.3,5000);
+    const initialItem=mod(Number(new URLSearchParams(location.search).get('item')||0),5);target=initialItem;setCW();makeCards();requestAnimationFrame(frame);requestAnimationFrame(()=>{const a=$('.tab.active');$('.tabs .pill').style.width=a.offsetWidth+'px';$('.tabs .pill').style.transform=`translateX(${a.offsetLeft-5}px)`});setTimeout(()=>tryOn(initialItem),300);setTimeout(()=>$('.hint').style.opacity=.3,5000);
   </script>
 </body>
 </html>
