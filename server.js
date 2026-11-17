@@ -3,11 +3,13 @@ import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { gzipSync } from 'node:zlib';
 import mysql from 'mysql2/promise';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const port = Number(process.env.PORT || 3000);
-const types = { '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.ts':'text/plain; charset=utf-8' };
+const types = { '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.ts':'text/plain; charset=utf-8', '.webp':'image/webp' };
+const compressible = new Set(['.html','.js','.css','.json','.ts']);
 const PRODUCTS = [
   { id:0, name:'تی‌شرت پایه', price:45, colors:['سفید','خاکستری','ذغالی','سرمه‌ای'] },
   { id:1, name:'سویشرت پایه', price:105, colors:['سفید','جو دوسر','مریم‌گلی','مشکی'] },
@@ -88,8 +90,8 @@ async function handleRequest(req,res){const url=new URL(req.url||'/',`http://${r
   if(path==='/api/cart/checkout'&&req.method==='POST')return handleCheckout(req,res);
   if(path==='/api/stripe/webhook'&&req.method==='POST')return handleWebhook(req,res);
   if(path.startsWith('/api/orders/')&&req.method==='GET'){const order=await getOrder(path.split('/').pop());if(!order)return sendJson(res,404,{error:'سفارش پیدا نشد'});return sendJson(res,200,{ok:true,order})}
-  const requestedFile=path==='/'?'/index.html':path==='/products'||path==='/products/'?'/products.html':path==='/cart'||path==='/cart/'?'/cart.html':path==='/checkout'||path==='/checkout/'?'/checkout.html':path==='/orders'||path==='/orders/'?'/orders.html':path==='/manus-routes.json'?'/public/manus-routes.json':path;
-  const safePath=normalize(requestedFile).replace(/^\/{2,}/,'/');const filePath=join(root,safePath);if(!filePath.startsWith(root))return sendText(res,403,'Forbidden');try{const body=await readFile(filePath);res.writeHead(200,{'Content-Type':types[extname(filePath)]||'application/octet-stream','Cache-Control':'no-cache'});res.end(body)}catch{sendText(res,404,'Not found')}}
+  const requestedFile=path.startsWith('/assets/')?`/public${path}`:path==='/'?'/index.html':path==='/products'||path==='/products/'?'/products.html':path==='/cart'||path==='/cart/'?'/cart.html':path==='/checkout'||path==='/checkout/'?'/checkout.html':path==='/orders'||path==='/orders/'?'/orders.html':path==='/manus-routes.json'?'/public/manus-routes.json':path;
+  const safePath=normalize(requestedFile).replace(/^\/{2,}/,'/');const filePath=join(root,safePath);if(!filePath.startsWith(root))return sendText(res,403,'Forbidden');try{const body=await readFile(filePath);const extension=extname(filePath);const headers={'Content-Type':types[extension]||'application/octet-stream','Cache-Control':extension==='.html'||extension==='.json'?'no-cache':(extension==='.webp'?'public, max-age=31536000, immutable':'public, max-age=3600'),'Vary':'Accept-Encoding'};const acceptsGzip=String(req.headers['accept-encoding']||'').includes('gzip');const shouldCompress=acceptsGzip&&compressible.has(extension);const payload=shouldCompress?gzipSync(body,{level:6}):body;if(shouldCompress)headers['Content-Encoding']='gzip';res.writeHead(200,headers);res.end(payload)}catch{sendText(res,404,'Not found')}}
 
 const server=http.createServer((req,res)=>{handleRequest(req,res).catch(error=>{console.error('request failed',error.message);if(!res.headersSent)sendJson(res,500,{error:'خطای داخلی سرور'})})});
 server.listen(port,'0.0.0.0',()=>console.log(`مارک روی پورت ${port} آماده است`));

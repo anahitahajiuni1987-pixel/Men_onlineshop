@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preload" as="image" href="/assets/room.webp" type="image/webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/model.webp" type="image/webp" fetchpriority="high" />
   <meta name="theme-color" content="#d8d2c8" />
   <meta name="description" content="مارک؛ پوشاک مردانه با پرو مجازی فضایی." />
   <title>مارک | پرو مجازی پوشاک مردانه</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
-    :root{--ease:cubic-bezier(.2,.8,.2,1);--sans:"Inter","Vazirmatn",system-ui,-apple-system,sans-serif;--MH:min(78vh,62vw);--CW:min(14.8vw,33vh);--ink:#171719;--room:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261104_080623_c94c85a3-23d5-4a0c-afff-41be1b5b8191.png&w=2400&q=85");--model:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261104_080717_e02cb856-b812-4c9b-9b86-8a741c7f65eb.png&w=2688&q=85");--garm:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261104_080719_f5a4cca2-cf42-4957-ab3b-ddec34d2b71a.png&w=2048&q=85")}
+    :root{--ease:cubic-bezier(.2,.8,.2,1);--sans:"Inter","Vazirmatn",system-ui,-apple-system,sans-serif;--MH:min(78vh,62vw);--CW:min(14.8vw,33vh);--ink:#171719;--room:url("/assets/room.webp");--model:url("/assets/model.webp");--garm:url("/assets/garments.webp")}
     *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;width:100%}body{background:#e9e4dc;color:#fff;font-family:var(--sans);overflow:hidden;user-select:none;-webkit-font-smoothing:antialiased}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}button:focus-visible{outline:2px solid rgba(255,255,255,.95);outline-offset:3px}@media(pointer:fine){html,body,button{cursor:none}}
     .room{position:fixed;inset:-3%;z-index:0;background:var(--room) center/cover no-repeat;filter:blur(2.5px) saturate(1.05);transform:scale(1.08);transition:transform .8s var(--ease)}.room:after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(255,252,246,.1),rgba(40,30,20,.16))}
     .ghost{position:fixed;z-index:2;top:calc(50% - var(--MH)*.42);left:50%;transform:translate(-50%,-0%);font-family:Inter,"Vazirmatn",sans-serif;font-weight:900;font-size:calc(var(--MH)*.42);line-height:.8;letter-spacing:-.06em;color:rgba(255,255,255,.3);-webkit-text-stroke:1px rgba(255,255,255,.35);text-shadow:0 1px 0 rgba(255,255,255,.35);white-space:nowrap;pointer-events:none;transition:transform .6s var(--ease)}.ghost span{display:inline-block;transition:transform .7s var(--ease)}
